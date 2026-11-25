@@ -1,0 +1,70 @@
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+@keyframes kf_Vector_1_path-trim_0 {
+  0% {
+    stroke-dasharray: 0 1;
+    stroke-dashoffset: 0;
+    opacity: 0.35;
+  }
+  50% {
+    stroke-dasharray: 1 0;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dasharray: 0 1;
+    stroke-dashoffset: -1;
+    opacity: 0.35;
+  }
+}
+@keyframes kf_pulli_pulse {
+  0%, 100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+#Vector_1 {
+  stroke-dashoffset: 0;
+  animation: kf_Vector_1_path-trim_0 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+.pulli-dot {
+  animation: kf_pulli_pulse 2.6s ease-in-out infinite;
+}
+</style>
+<g id="Frame_105" clip-path="url(#clip0_589_89)">
+<rect width="240" height="240" id="Frame_105_bg_0" fill="none"/>
+<circle class="pulli-dot" id="Ellipse_522" transform="matrix(-1 0 0 1 123 117)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_523" transform="matrix(-1 0 0 1 123 79)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_528" transform="matrix(4.37114e-08 1 1 -4.37114e-08 79 117)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_532" transform="matrix(4.37114e-08 1 1 -4.37114e-08 79 79)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_534" transform="matrix(4.37114e-08 1 1 -4.37114e-08 79 155)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_525" transform="matrix(-1 0 0 1 123 193)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_529" transform="matrix(4.37114e-08 1 1 -4.37114e-08 193 117)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_524" transform="matrix(-1 0 0 1 123 41)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_530" transform="matrix(4.37114e-08 1 1 -4.37114e-08 41 117)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_526" transform="matrix(-1 0 0 1 123 155)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_531" transform="matrix(4.37114e-08 1 1 -4.37114e-08 155 117)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_533" transform="matrix(4.37114e-08 1 1 -4.37114e-08 155 79)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<circle class="pulli-dot" id="Ellipse_535" transform="matrix(4.37114e-08 1 1 -4.37114e-08 155 155)" cx="3" cy="3" r="3.2" fill="#f9f3eb"/>
+<path id="Vector_1" transform="translate(33.1667 30.4977)" d="M86.333 178.503C91.583 178.263 99.333 172.503 99.333 165.003C99.333 149.003 75.7008 131.703 52.834 119.003C33.1146 108.05 11.4236 106.025 2.83235 96.0027C-1.88206 90.5027 -0.126075 82.4715 3.83291 79.5027C7.8335 76.5027 14.8323 78.2768 18.834 82.0027C33.3329 95.5027 32.834 130.859 43.334 136.503C51.334 140.803 67.7189 129.249 80.334 116.003C90.334 105.502 96.834 99.0019 96.834 89.5023C96.834 80.0027 72.334 57.0027 55.834 45.5027C52.247 43.0027 46.834 41.0027 43.334 43.5027C39.834 46.0027 40.2687 51.1361 41.834 56.5027C45.334 68.5027 57.4872 76.6482 58.334 88.5027C58.834 95.5027 53.834 99.5027 48.834 99.5027C43.834 99.5027 38.2867 95.4827 38.834 88.0027C40.334 67.5023 96.834 32.0023 98.334 14.0023C98.8323 8.02302 91.334 -0.158852 85.834 0.0023455C80.334 0.163543 75.0267 8.01011 75.334 14.0023C76.334 33.5028 135.334 66.0023 135.334 89.5023C135.334 94.0023 130.834 99.5027 125.333 99.5027C119.832 99.5027 115.334 96.0023 115.334 89.5023C115.334 80.0023 128.833 64.0023 132.834 55.0023C136.835 46.0023 129.833 39.5023 121.334 42.5023C112.835 45.5023 76.834 79.5027 76.834 89.5023C76.834 99.5019 91.834 114.368 106.834 127.693C113.031 133.199 116.334 137.003 124.334 137.502C132.334 138.002 136.236 128.616 137.334 124.002C140.834 109.3 145.834 89.5023 155.834 83.0023C161.658 79.2167 167.834 80.5027 170.334 83.0023C172.834 85.5019 173.834 90.0023 168.834 95.5023C162.47 102.502 141.858 107.407 124.334 117.002C112.221 123.635 95.833 135.503 95.833 135.503C95.833 135.503 75.834 149.002 74.333 165.003C73.5297 173.566 81.083 178.743 86.333 178.503Z" pathLength="1" stroke="url(#kolamGold)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="0.4255 1" filter="url(#kolamGlow)"/>
+</g>
+<defs>
+<linearGradient id="kolamGold" x1="0" y1="0" x2="173" y2="179" gradientUnits="userSpaceOnUse">
+  <stop offset="0%" stop-color="#ffe7b3"/>
+  <stop offset="50%" stop-color="#f6c46d"/>
+  <stop offset="100%" stop-color="#d88d32"/>
+</linearGradient>
+<filter id="kolamGlow" x="-15%" y="-15%" width="130%" height="130%">
+  <feGaussianBlur stdDeviation="2.5" result="blur"/>
+  <feMerge>
+    <feMergeNode in="blur"/>
+    <feMergeNode in="SourceGraphic"/>
+  </feMerge>
+</filter>
+<clipPath id="clip0_589_89">
+<rect width="240" height="240" fill="white"/>
+</clipPath>
+</defs>
+</svg>

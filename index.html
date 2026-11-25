@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pallanguzhi — 3D Game</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/build/three.module.js",
+        "three/addons/": "./vendor/three/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="canvas-container" aria-label="Interactive 3D Pallanguzhi game scene"></div>
+
+  <!-- Projected 2D Pit Seed Count Badges (Playing Mode) -->
+  <div id="pit-badges" class="pit-badges hidden" aria-hidden="true"></div>
+
+  <!-- Loading Overlay -->
+  <div id="loader" class="loader-overlay">
+    <div class="loader-card">
+      <img src="./loading.svg" class="loader-kolam" alt="Kolam loading animation" />
+      <div class="loader-emblem">பல்லாங்குழி</div>
+      <h1>Pallanguzhi</h1>
+      <p id="loader-status">Loading 3D scene &amp; baked textures…</p>
+      <div class="progress-track">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <span id="progress-pct" class="progress-pct">0%</span>
+    </div>
+  </div>
+
+  <!-- Start Menu Overlay (Shown in Thinnai Veranda View) -->
+  <section id="menu-overlay" class="menu-overlay" aria-label="Game Menu">
+    <div class="menu-card">
+      <span class="tamil-badge">பல்லாங்குழி</span>
+      <h1 class="menu-title">Pallanguzhi</h1>
+      <p class="menu-subtitle">Traditional South Indian Mancala on the <em>Thinnai</em> Veranda</p>
+
+      <button id="btn-play" class="play-btn" type="button">
+        <span>Play</span>
+      </button>
+
+      <div class="menu-options">
+        <div class="option-block">
+          <span class="option-label">Game Mode</span>
+          <div class="option-pills">
+            <button class="mode-btn active" data-mode="cpu" type="button">vs CPU</button>
+            <button class="mode-btn" data-mode="pvp" type="button">2 Players</button>
+          </div>
+        </div>
+
+        <div class="option-block">
+          <span class="option-label">Lighting Atmosphere</span>
+          <div class="option-pills">
+            <button class="mood-btn active" data-mood="golden" type="button">Golden Hour</button>
+            <button class="mood-btn" data-mood="noon" type="button">Daylight</button>
+            <button class="mood-btn" data-mood="evening" type="button">Evening</button>
+          </div>
+        </div>
+
+        <div class="option-row">
+          <button id="btn-menu-about" class="secondary-btn" type="button">How to Play</button>
+          <button id="btn-menu-tune" class="secondary-btn" type="button">Adjust Camera</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Playing HUD (Shown in Board View after clicking Play) -->
+  <header id="play-hud-top" class="hud-top hidden">
+    <div class="score-hud">
+      <div id="p1-card" class="player-pill active-turn">
+        <span class="player-name">Player 1</span>
+        <strong id="p1-score" class="player-score">0</strong>
+      </div>
+      <div class="turn-banner">
+        <span id="turn-status">Dropping seeds into pits…</span>
+      </div>
+      <div id="p2-card" class="player-pill">
+        <span id="p2-name" class="player-name">CPU</span>
+        <strong id="p2-score" class="player-score">0</strong>
+      </div>
+    </div>
+
+    <div class="hud-actions">
+      <button id="btn-back-menu" class="pill-btn accent-pill" type="button">← Menu</button>
+      <button id="btn-new-game" class="pill-btn" type="button">New Game</button>
+      <button id="btn-board-view" class="pill-btn" type="button">Board Angle</button>
+      <button id="btn-board-only" class="pill-btn" type="button">Isolate Board</button>
+      <button id="btn-play-tune" class="pill-btn" type="button">Adjust Camera</button>
+      <button id="btn-info" class="pill-btn" type="button">Rules</button>
+    </div>
+  </header>
+
+  <footer id="play-hud-bottom" class="hud-bottom hidden">
+    <div class="control-group">
+      <span class="group-label">Mode</span>
+      <div class="btn-row">
+        <button class="mode-btn active" data-mode="cpu" type="button">vs CPU</button>
+        <button class="mode-btn" data-mode="pvp" type="button">2 Players</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="control-group">
+      <span class="group-label">Lighting</span>
+      <div class="btn-row">
+        <button class="mood-btn active" data-mood="golden" type="button">Golden Hour</button>
+        <button class="mood-btn" data-mood="noon" type="button">Daylight</button>
+        <button class="mood-btn" data-mood="evening" type="button">Evening</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="control-group">
+      <span class="group-label">Display</span>
+      <div class="btn-row">
+        <button id="btn-counts" class="pill-btn active" type="button">Pit Counts</button>
+        <button id="btn-rotate" class="pill-btn" type="button">Auto-Orbit</button>
+        <button id="btn-wireframe" class="pill-btn" type="button">Wireframe</button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Selection / Hover Info Pill -->
+  <div id="selection-pill" class="selection-pill hidden">
+    <span class="dot"></span>
+    <span id="selection-label">Pit info</span>
+  </div>
+
+  <!-- Game Over Modal -->
+  <div id="gameover-modal" class="gameover-modal hidden">
+    <div class="gameover-card">
+      <span class="tamil-badge">ஆட்டம் முடிந்தது</span>
+      <h2 id="gameover-title">Player 1 Wins!</h2>
+      <p id="gameover-summary"></p>
+      <div class="gameover-actions">
+        <button id="btn-play-again" class="play-btn" type="button">Play Again</button>
+        <button id="btn-gameover-menu" class="secondary-btn" type="button">Back to Veranda</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live Camera Angle Adjuster Panel -->
+  <aside id="cam-tuner" class="cam-tuner hidden">
+    <div class="info-header">
+      <h2>Adjust Camera Angle</h2>
+      <button id="btn-close-tuner" class="icon-close" type="button" aria-label="Close camera adjuster">&times;</button>
+    </div>
+    <p class="tuner-hint">Orbit, pan, or zoom the 3D scene to frame your preferred angle, then save it below.</p>
+    <pre id="cam-readout" class="cam-readout"></pre>
+    <div class="tuner-actions">
+      <button id="btn-save-veranda" class="secondary-btn" type="button">Set as Thinnai Veranda</button>
+      <button id="btn-save-board" class="secondary-btn" type="button">Set as Board (Play)</button>
+      <button id="btn-copy-cam" class="secondary-btn" type="button">Copy Code for app.js</button>
+      <button id="btn-reset-cam" class="secondary-btn danger-btn" type="button">Reset Defaults</button>
+    </div>
+    <span id="tuner-status" class="tuner-status"></span>
+  </aside>
+
+  <!-- How to Play / Info Drawer -->
+  <aside id="info-panel" class="info-panel hidden">
+    <div class="info-header">
+      <h2>How to Play Pallanguzhi</h2>
+      <button id="btn-close-info" class="icon-close" type="button" aria-label="Close panel">&times;</button>
+    </div>
+    <p>
+      Each of the 14 pits starts with <strong>5 icosahedra</strong>. On your turn, click any non-empty pit on your side (Player 1 owns the near row; CPU / Player 2 owns the far row).
+    </p>
+    <p>
+      The hand picks up all seeds and drops them <strong>counter-clockwise</strong> one per pit. If the pit after your last drop has seeds, the hand scoops and continues (<em>relay</em>). If that next pit is empty, you <strong>capture</strong> all seeds from the pit after it!
+    </p>
+    <div class="controls-legend">
+      <div><strong>Click Pit</strong> Pick up &amp; sow</div>
+      <div><strong>Right Drag</strong> Pan camera</div>
+      <div><strong>Left Drag</strong> Orbit camera</div>
+      <div><strong>C Key</strong> Adjust camera</div>
+    </div>
+  </aside>
+
+  <!-- Fallback Error Banner -->
+  <div id="error-banner" class="error-banner hidden">
+    <h2>Could not load 3D model</h2>
+    <p id="error-message"></p>
+    <label class="upload-btn">
+      Open <code>pallakulzhi.glb</code> manually
+      <input id="file-input" type="file" accept=".glb,.gltf" hidden />
+    </label>
+  </div>
+
+  <script>
+    (function () {
+      function showStartupError(msg) {
+        var loader = document.getElementById("loader");
+        var banner = document.getElementById("error-banner");
+        var errMsg = document.getElementById("error-message");
+        if (loader) loader.classList.add("fade-out");
+        if (errMsg) errMsg.innerHTML = msg;
+        if (banner) banner.classList.remove("hidden");
+      }
+
+      if (window.location.protocol === "file:") {
+        showStartupError(
+          "Browsers block 3D modules over <code>file://</code>. Run <code>start-website.bat</code> or <code>node server.mjs</code> and open <code>http://127.0.0.1:4173</code>."
+        );
+        return;
+      }
+
+      window.addEventListener("error", function (e) {
+        if (!window.__PALLANGUZHI_LOADED) {
+          showStartupError("Startup error: " + (e.message || "Failed to load 3D viewer scripts."));
+        }
+      });
+
+      window.addEventListener("unhandledrejection", function (e) {
+        if (!window.__PALLANGUZHI_LOADED) {
+          var reason = e.reason && e.reason.message ? e.reason.message : String(e.reason || "Unknown error");
+          showStartupError("Module error: " + reason);
+        }
+      });
+
+      setTimeout(function () {
+        if (!window.__PALLANGUZHI_STARTED) {
+          showStartupError(
+            "Timed out starting the 3D viewer. Ensure <code>node server.mjs</code> is running at <code>http://127.0.0.1:4173</code>."
+          );
+        }
+      }, 8000);
+    })();
+  </script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
