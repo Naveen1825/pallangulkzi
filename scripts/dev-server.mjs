@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const ROOT_DIR = path.resolve(__dirname, "..");
 const PORT = Number(process.env.PORT || 4173);
 const HOST = process.env.HOST || "0.0.0.0";
 
@@ -23,9 +24,9 @@ const MIME_TYPES = {
 const server = http.createServer((req, res) => {
   const urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
   const relPath = urlPath === "/" ? "index.html" : urlPath.replace(/^\/+/, "");
-  const fullPath = path.resolve(__dirname, relPath);
+  const fullPath = path.resolve(ROOT_DIR, relPath);
 
-  if (!fullPath.startsWith(__dirname)) {
+  if (!fullPath.startsWith(ROOT_DIR)) {
     res.writeHead(403);
     res.end("Forbidden");
     return;
